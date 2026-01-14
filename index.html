@@ -1,117 +1,214 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FurnitureKu - Toko Perabotan</title>
-  <style>
-    * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-    body { margin: 0; background: #f5f5f5; }
-    header {
-      background: #6b4f4f;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav a { color: white; margin-left: 15px; text-decoration: none; font-weight: bold; }
-    .hero { background: #8d6e63; color: white; text-align: center; padding: 60px 20px; }
-    .container { padding: 30px; }
-    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; }
-    .card { background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); overflow: hidden; }
-    .card img { width: 100%; height: 180px; object-fit: cover; }
-    .card .content { padding: 15px; }
-    .price { color: #6b4f4f; font-weight: bold; }
-    button { padding: 10px; width: 100%; background: #6b4f4f; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #553b3b; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table, th, td { border: 1px solid #ccc; }
-    th, td { padding: 10px; text-align: center; }
-    .login-box { max-width: 300px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-    footer { background: #333; color: white; text-align: center; padding: 15px; margin-top: 30px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Tebak-Tebakan</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+}
+
+.container {
+    background: white;
+    width: 95%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: scale(0.9);}
+    to {opacity:1; transform: scale(1);}
+}
+
+select, input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 7px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+.message {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.timer {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.score {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.leaderboard {
+    text-align: left;
+    margin-top: 10px;
+    font-size: 14px;
+}
+</style>
 </head>
-<body><header>
-  <h2>FurnitureKu</h2>
-  <nav>
-    <a href="#produk">Produk</a>
-    <a href="#keranjang">Keranjang</a>
-    <a href="#admin">Admin</a>
-  </nav>
-</header><section class="hero">
-  <h2>Perabotan Modern & Berkualitas</h2>
-  <p>Lengkapi rumah Anda dengan furniture terbaik</p>
-</section><section class="container" id="produk">
-  <h2>Produk</h2>
-  <div class="products">
-    <div class="card">
-      <div class="content">
-        <h3>Sofa Minimalis</h3>
-        <p class="price">3500000</p>
-        <button onclick="addCart('Sofa Minimalis',3500000)">Tambah</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="content">
-        <h3>Meja Kayu</h3>
-        <p class="price">1750000</p>
-        <button onclick="addCart('Meja Kayu',1750000)">Tambah</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="content">
-        <h3>Kursi Makan</h3>
-        <p class="price">850000</p>
-        <button onclick="addCart('Kursi Makan',850000)">Tambah</button>
-      </div>
-    </div>
-  </div>
-</section><section class="container" id="keranjang">
-  <h2>Keranjang Belanja</h2>
-  <table>
-    <thead>
-      <tr><th>Produk</th><th>Harga</th></tr>
-    </thead>
-    <tbody id="cart"></tbody>
-  </table>
-  <h3>Total: Rp <span id="total">0</span></h3>
-</section><section class="container" id="admin">
-  <h2>Login Admin</h2>
-  <div class="login-box">
-    <input type="text" id="user" placeholder="Username" style="width:100%;margin-bottom:10px;">
-    <input type="password" id="pass" placeholder="Password" style="width:100%;margin-bottom:10px;">
-    <button onclick="loginAdmin()">Login</button>
-    <p id="msg"></p>
-  </div>
-</section><footer>
-  <p>&copy; 2026 FurnitureKu</p>
-</footer><script>
-  let cart = [];
-  let total = 0;
 
-  function addCart(nama, harga) {
-    cart.push({nama, harga});
-    total += harga;
-    renderCart();
-  }
+<body>
+<div class="container">
+    <h2>🎮 Tebak-Tebakan</h2>
 
-  function renderCart() {
-    let html = '';
-    cart.forEach(item => {
-      html += <tr><td>${item.nama}</td><td>${item.harga}</td></tr>;
-    });
-    document.getElementById('cart').innerHTML = html;
-    document.getElementById('total').innerText = total;
-  }
+    <select id="mode">
+        <option value="angka">Tebak Angka</option>
+        <option value="kata">Tebak Kata</option>
+    </select>
 
-  function loginAdmin() {
-    let u = document.getElementById('user').value;
-    let p = document.getElementById('pass').value;
-    if(u === 'admin' && p === '12345') {
-      document.getElementById('msg').innerText = 'Login berhasil (Admin)';
+    <select id="level">
+        <option value="mudah">Mudah</option>
+        <option value="sedang">Sedang</option>
+        <option value="sulit">Sulit</option>
+    </select>
+
+    <select id="playerMode">
+        <option value="1">1 Pemain</option>
+        <option value="2">2 Pemain</option>
+    </select>
+
+    <input id="input" placeholder="Masukkan tebakan">
+
+    <button onclick="tebak()">Tebak</button>
+    <button onclick="resetGame()">Reset</button>
+
+    <div class="timer" id="timer">⏱️ 30</div>
+    <div class="message" id="message"></div>
+    <div class="score" id="score"></div>
+
+    <div class="leaderboard">
+        <h4>🏆 Leaderboard</h4>
+        <ol id="leaderboard"></ol>
+    </div>
+</div>
+
+<audio id="benar" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+<audio id="salah" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
+
+<script>
+let angka, kata;
+let skor = 0;
+let waktu = 30;
+let timer;
+let giliran = 1;
+
+const kataList = ["kucing","mobil","komputer","sekolah","pisang","kamera"];
+
+function startGame() {
+    clearInterval(timer);
+    waktu = 30;
+    timer = setInterval(() => {
+        waktu--;
+        document.getElementById("timer").textContent = "⏱️ " + waktu;
+        if (waktu <= 0) kalah();
+    },1000);
+
+    angka = Math.floor(Math.random()*100)+1;
+    kata = kataList[Math.floor(Math.random()*kataList.length)];
+}
+
+startGame();
+
+function tebak() {
+    const input = document.getElementById("input").value.toLowerCase();
+    const mode = document.getElementById("mode").value;
+    const msg = document.getElementById("message");
+
+    if (!input) return;
+
+    if (mode === "angka") {
+        if (Number(input) === angka) menang();
+        else salah();
     } else {
-      document.getElementById('msg').innerText = 'Username atau password salah';
+        if (input === kata) menang();
+        else salah();
     }
-  }
-</script></body>
+}
+
+function menang() {
+    document.getElementById("benar").play();
+    skor += waktu;
+    document.getElementById("message").textContent = "🎉 BENAR!";
+    document.getElementById("score").textContent = "Skor: " + skor;
+    saveScore();
+    startGame();
+}
+
+function salah() {
+    document.getElementById("salah").play();
+    document.getElementById("message").textContent = "❌ SALAH!";
+    gantiGiliran();
+}
+
+function kalah() {
+    document.getElementById("message").textContent = "⏰ Waktu Habis!";
+    gantiGiliran();
+    startGame();
+}
+
+function gantiGiliran() {
+    const pm = document.getElementById("playerMode").value;
+    if (pm == 2) {
+        giliran = giliran === 1 ? 2 : 1;
+        document.getElementById("message").textContent += " | Giliran Pemain " + giliran;
+    }
+}
+
+function resetGame() {
+    skor = 0;
+    document.getElementById("score").textContent = "";
+    startGame();
+}
+
+function saveScore() {
+    let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    data.push(skor);
+    data.sort((a,b)=>b-a);
+    data = data.slice(0,5);
+    localStorage.setItem("leaderboard", JSON.stringify(data));
+    renderLeaderboard();
+}
+
+function renderLeaderboard() {
+    const list = document.getElementById("leaderboard");
+    list.innerHTML = "";
+    const data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    data.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = s;
+        list.appendChild(li);
+    });
+}
+
+renderLeaderboard();
+</script>
+</body>
 </html>
